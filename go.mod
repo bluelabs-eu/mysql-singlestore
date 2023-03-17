@@ -1,3 +1,3 @@
-module github.com/bluelabs-eu/mysql-singlestore
+module github.com/go-sql-driver/mysql
 
 go 1.13
