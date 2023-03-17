@@ -1073,16 +1073,10 @@ func (stmt *mysqlStmt) writeExecutePacket(args []driver.Value) error {
 					paramTypes[i+i] = byte(fieldTypeString)
 					paramTypes[i+i+1] = 0x00
 
-					if len(v) < longDataSize {
-						paramValues = appendLengthEncodedInteger(paramValues,
-							uint64(len(v)),
-						)
-						paramValues = append(paramValues, v...)
-					} else {
-						if err := stmt.writeCommandLongData(i, v); err != nil {
-							return err
-						}
-					}
+					paramValues = appendLengthEncodedInteger(paramValues,
+						uint64(len(v)),
+					)
+					paramValues = append(paramValues, v...)
 					continue
 				}
 
@@ -1095,16 +1089,10 @@ func (stmt *mysqlStmt) writeExecutePacket(args []driver.Value) error {
 				paramTypes[i+i] = byte(fieldTypeString)
 				paramTypes[i+i+1] = 0x00
 
-				if len(v) < longDataSize {
-					paramValues = appendLengthEncodedInteger(paramValues,
-						uint64(len(v)),
-					)
-					paramValues = append(paramValues, v...)
-				} else {
-					if err := stmt.writeCommandLongData(i, []byte(v)); err != nil {
-						return err
-					}
-				}
+				paramValues = appendLengthEncodedInteger(paramValues,
+					uint64(len(v)),
+				)
+				paramValues = append(paramValues, v...)
 
 			case time.Time:
 				paramTypes[i+i] = byte(fieldTypeString)
